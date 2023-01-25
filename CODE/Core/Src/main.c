@@ -48,7 +48,7 @@ typedef struct{
 }GPIOstate;
 
 GPIOstate B1 = {1,0};
-uint32_t mode = 0;
+uint32_t mode = 500;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -138,28 +138,19 @@ int main(void)
 
 	  B1.current = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_10);
 	  if(B1.last == 1 && B1.current == 0){
-		  if(mode == 0){
-			  mode = 1;
+		  if(mode == 500){
+			  mode = 250;
 		  }
-		  else if(mode == 1){
-			  mode = 0;
+		  else if(mode == 250){
+			  mode = 500;
 		  }
 	  }
 	  B1.last = B1.current;
-	  if(mode == 0){
 		  if(timestamp <= HAL_GetTick()){
-		  		  timestamp = HAL_GetTick() + 500; // ms
+		  		  timestamp = HAL_GetTick() + mode; // ms
 		  		  //SWITCH LED
 		  		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_12);
 		  	  }
-	  }
-	  else if(mode == 1){
-		  if(timestamp <= HAL_GetTick()){
-		  		  timestamp = HAL_GetTick() + 250; // ms
-		  		  //SWITCH LED
-		  		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_12);
-		  	  }
-	  }
 
 	  //------------------------------------------------------------
 
